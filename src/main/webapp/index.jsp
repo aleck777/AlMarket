@@ -6,6 +6,8 @@
 <%@ taglib tagdir="/WEB-INF/tags/page" prefix="page" %>
 
 <html>
+<page:css/>
+
 <body>
 
 <br/>

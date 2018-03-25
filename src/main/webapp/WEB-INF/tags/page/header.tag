@@ -5,7 +5,7 @@
 
 <div class="header">
     <h1> ${title2} </h1>
-    <div>
+    <div class="menu">
         <c:if test="${title2.equals(\"main\")}" var="result" scope="page">
             <b><a href="?p=main">Главная</a></b>
         </c:if>
