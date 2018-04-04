@@ -1,8 +1,11 @@
 package market.web;
 
+import market.logic.ManagementSystem;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -15,7 +18,7 @@ public class mainServlet extends HttpServlet {
     private String p = "main";
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         // Установка кодировки для принятия параметров
         req.setCharacterEncoding("UTF-8");
         // Получаем доступ к сессии, что бы записать переменные
@@ -30,17 +33,30 @@ public class mainServlet extends HttpServlet {
         // Записываем значение в атрибут P
         req.setAttribute("p", this.p);
 
-        getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
+        // Атрибут users - коллекция пользователей
+        Collection cUsers = ManagementSystem.getInstance().getUsers();
+        req.setAttribute("users", cUsers);
 
+        // Вызов страницы вывода
+        getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
     }
+
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        processRequest(req, resp);
+        try {
+            processRequest(req, resp);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        processRequest(req, resp);
+        try {
+            processRequest(req, resp);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

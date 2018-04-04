@@ -34,6 +34,13 @@
         </c:choose>
     </div>
 
-    <page:footer/>
+    <tr/>
+    <c:forEach var="user" items="${users}">
+        <c:out value="${user.getLogin()}"/> -
+        <c:out value="${user.getPassword()}"/> -
+        <c:out value="${user.getAccess()}"/> <br/>
+    </c:forEach>
+
+<page:footer/>
 </body>
 </html>
