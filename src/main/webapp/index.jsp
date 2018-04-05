@@ -23,7 +23,7 @@
        <%--Селектор страницы с контентом --%>
         <c:choose>
             <c:when test="${p == \"main\"}">
-                <page:content_main/>
+                <page:content_main users="${users}"/>
             </c:when>
             <c:when test="${p == \"about\"}">
                 <page:content_about/>
@@ -34,12 +34,6 @@
         </c:choose>
     </div>
 
-    <tr/>
-    <c:forEach var="user" items="${users}">
-        <c:out value="${user.getLogin()}"/> -
-        <c:out value="${user.getPassword()}"/> -
-        <c:out value="${user.getAccess()}"/> <br/>
-    </c:forEach>
 
 <page:footer/>
 </body>
