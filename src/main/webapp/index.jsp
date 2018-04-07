@@ -17,7 +17,13 @@
     <page:css/>
   </header>
 <body>
+    <div>
+        <page:form_auth/>
+        <page:logo/>
+    </div>
+
     <page:header psel="${p}"/>
+    <hr/>
 
     <div class="content">
        <%--Селектор страницы с контентом --%>
@@ -27,6 +33,9 @@
             </c:when>
             <c:when test="${p == \"about\"}">
                 <page:content_about/>
+            </c:when>
+            <c:when test="${p == \"register\"}">
+                <page:content_register/>
             </c:when>
             <c:otherwise>
                 <page:content_e404/>

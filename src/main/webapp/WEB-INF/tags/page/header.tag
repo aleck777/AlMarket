@@ -2,7 +2,7 @@
 <%@ tag pageEncoding="UTF-8" %>
 <%@ attribute name="psel" required="true" type="java.lang.String" %>
 
-page tag = ${psel} <br/>
+<%--page tag = ${psel} <br/>--%>
 <div class="header">
     <div class="menu">
         <a href="?p=main">Главная</a>
@@ -10,4 +10,3 @@ page tag = ${psel} <br/>
         <a href="?p=basket">Корзина</a>
     </div>
 </div>
-<hr/>
