@@ -7,9 +7,11 @@ import java.util.Date;
 
 public class User  {
 
+    private String sFIO;
     private String sLogin;
     private String sPassword;
     private int iAccess;
+    private boolean bAuthorized = false;
 
     public User(ResultSet rs) throws SQLException {
         setLogin(rs.getString(1));
@@ -20,6 +22,9 @@ public class User  {
     public User() {
     }
 
+    public void setFIO(String sFIO) {
+        this.sFIO = sFIO;
+    }
     public void setLogin(String sLogin) {
         this.sLogin = sLogin;
     }
@@ -29,8 +34,11 @@ public class User  {
     public void setAccess(int iAccess) {
         this.iAccess = iAccess;
     }
+    public void setAuthorized(boolean bAuthorized) { this.bAuthorized = bAuthorized; }
 
-
+    public String getFIO() {
+        return sFIO;
+    }
     public String getLogin() {
         return sLogin;
     }
@@ -40,4 +48,5 @@ public class User  {
     public int getAccess() {
         return iAccess;
     }
+    public boolean getAuthorized () { return bAuthorized; }
 }

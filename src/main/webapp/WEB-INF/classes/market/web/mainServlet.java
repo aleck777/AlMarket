@@ -3,11 +3,8 @@ package market.web;
 import market.logic.ManagementSystem;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +13,9 @@ import javax.servlet.http.HttpSession;
 
 public class mainServlet extends HttpServlet {
     private String p = "main";
+    private String sAction = "";
+    private market.logic.User oUserActive = new market.logic.User();
+
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException, SQLException {
@@ -24,11 +24,36 @@ public class mainServlet extends HttpServlet {
         // Получаем доступ к сессии, что бы записать переменные
         HttpSession session = req.getSession();
 
-        // session.getAttribute("user");
+
+        // Получаем значение параметра Action (для форм)
+        if (req.getParameter("action") != null) {
+            this.sAction = req.getParameter("action").trim();
+        }
+
+        if (req.getAttribute("oActiveUser") != null) {
+            this.oUserActive = (market.logic.User) req.getAttribute("oActiveUser");
+        }
+
+        // Logout
+        if (sAction.equals("logout")) {
+            oUserActive.setFIO("");
+            oUserActive.setLogin("");
+            oUserActive.setAuthorized(false);
+        }
+        // Проверка Логина и Пароля - вставлена заглушка для тестирования
+        // Реализовать проверку в базе данных
+        if (sAction.equals("auth")) {
+            oUserActive.setFIO("Новиков Александр");
+            oUserActive.setLogin("aleck");
+            oUserActive.setAuthorized(true);
+        }
+        req.setAttribute("oActiveUser", this.oUserActive);
 
         // Получаем значение переременной p (page)
         if (req.getParameter("p") != null) {
             this.p = req.getParameter("p").trim();
+        } else {
+            this.p = "main";
         }
         // Записываем значение в атрибут P
         req.setAttribute("p", this.p);
