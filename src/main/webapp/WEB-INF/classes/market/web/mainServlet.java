@@ -26,11 +26,25 @@ public class mainServlet extends HttpServlet {
         // Получаем доступ к сессии, что бы записать переменные
         HttpSession session = req.getSession();
 
+        // Получаем значение переременной p (page)
+        if (req.getParameter("p") != null) {
+            this.p = req.getParameter("p").trim();
+        } else {
+            this.p = "main";
+        }
+        // Записываем значение в атрибут P
+        req.setAttribute("p", this.p);
 
         // Получаем значение параметра Action (для форм)
         if (req.getParameter("action") != null) {
             this.sAction = req.getParameter("action").trim();
         }
+
+
+        // Атрибут users - коллекция пользователей
+        Collection cUsers = ManagementSystem.getInstance().getUsers();
+        req.setAttribute("users", cUsers);
+
 
         if (req.getAttribute("oActiveUser") != null) {
             this.oUserActive = (market.logic.User) req.getAttribute("oActiveUser");
@@ -45,24 +59,15 @@ public class mainServlet extends HttpServlet {
         // Проверка Логина и Пароля - вставлена заглушка для тестирования
         // Реализовать проверку в базе данных
         if (sAction.equals("auth")) {
-            oUserActive.setFIO("Новиков Александр");
-            oUserActive.setLogin("aleck");
-            oUserActive.setAuthorized(true);
+//            oUserActive.setFIO("Новиков Александр");
+//            oUserActive.setLogin("aleck");
+//            oUserActive.setAuthorized(true);
+            String sLogin = req.getParameter("login").trim();
+            String sPassword = req.getParameter("password").trim();
+            oUserActive = ManagementSystem.getInstance().checkUser(sLogin, sPassword);
         }
         req.setAttribute("oActiveUser", this.oUserActive);
 
-        // Получаем значение переременной p (page)
-        if (req.getParameter("p") != null) {
-            this.p = req.getParameter("p").trim();
-        } else {
-            this.p = "main";
-        }
-        // Записываем значение в атрибут P
-        req.setAttribute("p", this.p);
-
-        // Атрибут users - коллекция пользователей
-        Collection cUsers = ManagementSystem.getInstance().getUsers();
-        req.setAttribute("users", cUsers);
 
         // Вызов страницы вывода
         getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);

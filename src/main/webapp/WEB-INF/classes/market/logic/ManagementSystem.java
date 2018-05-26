@@ -49,10 +49,29 @@ public class ManagementSystem {
             usr.setAccess(rs.getInt(3));
             users.add(usr);
         }
-
-
         rs.close();
         stmt.close();
         return users;
+    }
+
+    public market.logic.User checkUser (String sLogin, String sPassword) throws SQLException  {
+        market.logic.User authUser = new market.logic.User();
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT am_login, am_password, am_access, am_fio FROM am_users WHERE am_login = '"+sLogin+"'"
+                                                +" and am_password = '"+sPassword+"'");
+        if (rs.next()) {
+            authUser.setLogin(rs.getString(1));
+            authUser.setPassword(rs.getString(2));
+            authUser.setAccess(rs.getInt(3));
+            authUser.setFIO(rs.getString(4));
+            authUser.setAuthorized(true);
+        } else {
+            authUser.setFIO("");
+            authUser.setLogin("");
+            authUser.setAuthorized(false);
+        }
+        rs.close();
+        stmt.close();
+        return authUser;
     }
 }
