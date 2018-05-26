@@ -5,14 +5,16 @@ import market.logic.ManagementSystem;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
+// import javax.annotation.processing.Generated;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 public class mainServlet extends HttpServlet {
-    private String p = "main";
+        private String p = "main";
     private String sAction = "";
     private market.logic.User oUserActive = new market.logic.User();
 
