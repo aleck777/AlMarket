@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="market.logic.User" %>
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>и
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 <%--<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>--%>
 <%@ taglib tagdir="/WEB-INF/tags/page" prefix="page" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -17,8 +17,6 @@
     <page:css/>
   </header>
 <body>
-     <%-- Тест селектора страницы --%>
-    <%--<c:out value="${p}"/>     <br/>--%>
     <div>
         <page:form_auth psel="${p}" ooActiveUser="${oActiveUser}"/>
         <page:logo/>
@@ -26,6 +24,7 @@
 
     <page:header psel="${p}"/>
     <hr/>
+    - <c:out value="${p}"/> - <c:out value="${sActionResult}"/> -
 
     <div class="content">
        <%--Селектор страницы с контентом --%>
@@ -38,6 +37,12 @@
             </c:when>
             <c:when test="${p == \"register\"}">
                 <page:content_register/>
+            </c:when>
+            <%--<c:when test="${p == \"register\"}">--%>
+                <%--<page:content_register/>--%>
+            <%--</c:when>--%>
+            <c:when test="${p == \"RegisterResult\"}">
+                <page:content_register_result users="${users}" ssRegisterResult="${sActionResult}" ooActiveUser="${oActiveUser}" />
             </c:when>
             <c:otherwise>
                 <page:content_e404/>

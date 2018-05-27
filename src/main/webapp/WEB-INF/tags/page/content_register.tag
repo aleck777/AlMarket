@@ -6,11 +6,11 @@
     Регистрация нового пользователя
 </div>
 <div class="content-form-register">
-    <form class="form-register" action="?action=register">
+    <form class="form-register" action="post">
         <table>
         <tr>
             <td>ФИО:</td>
-            <td><input name="FIO" type="text" value="" size="30"></td>
+            <td><input name="fio" type="text" value="" size="30"></td>
         </tr><tr>
             <td>Логин:</td>
             <td> <input name="login" type="text" value="" size="30"> </td>
@@ -21,9 +21,11 @@
             <td>Email:</td>
             <td><input name="email" type="email" value="" size="30"> </td>
         </tr><tr>
-            <td><input type="submit"></td>
+            <td><input type="submit" value="Зарегистрироваться"></td>
         </tr>
         </table>
+        <input name="action" value="register" type="hidden">
+        <input name="p" value="main" type="hidden">
     </form>
 </div>
 

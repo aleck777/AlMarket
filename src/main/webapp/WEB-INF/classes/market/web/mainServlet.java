@@ -14,8 +14,9 @@ import javax.servlet.http.HttpSession;
 
 
 public class mainServlet extends HttpServlet {
-        private String p = "main";
+    private String p = "main"; // p - page, атрибут для перехода на страницу
     private String sAction = "";
+    private String sActionResult = "";
     private market.logic.User oUserActive = new market.logic.User();
 
 
@@ -26,26 +27,22 @@ public class mainServlet extends HttpServlet {
         // Получаем доступ к сессии, что бы записать переменные
         HttpSession session = req.getSession();
 
+        //  Сбрасываем результат действия
+        sActionResult = "";
+
         // Получаем значение переременной p (page)
         if (req.getParameter("p") != null) {
             this.p = req.getParameter("p").trim();
         } else {
             this.p = "main";
         }
-        // Записываем значение в атрибут P
-        req.setAttribute("p", this.p);
 
         // Получаем значение параметра Action (для форм)
         if (req.getParameter("action") != null) {
             this.sAction = req.getParameter("action").trim();
         }
 
-
-        // Атрибут users - коллекция пользователей
-        Collection cUsers = ManagementSystem.getInstance().getUsers();
-        req.setAttribute("users", cUsers);
-
-
+        // Получаем активного пользователя
         if (req.getAttribute("oActiveUser") != null) {
             this.oUserActive = (market.logic.User) req.getAttribute("oActiveUser");
         }
@@ -55,19 +52,48 @@ public class mainServlet extends HttpServlet {
             oUserActive.setFIO("");
             oUserActive.setLogin("");
             oUserActive.setAuthorized(false);
+            sAction = "";
         }
-        // Проверка Логина и Пароля - вставлена заглушка для тестирования
-        // Реализовать проверку в базе данных
+        // Проверка Логина и Пароля - в базе данных
         if (sAction.equals("auth")) {
-//            oUserActive.setFIO("Новиков Александр");
-//            oUserActive.setLogin("aleck");
-//            oUserActive.setAuthorized(true);
             String sLogin = req.getParameter("login").trim();
             String sPassword = req.getParameter("password").trim();
             oUserActive = ManagementSystem.getInstance().checkUser(sLogin, sPassword);
+            sAction = "";
         }
-        req.setAttribute("oActiveUser", this.oUserActive);
 
+        // Регистрация нового пользователя
+        if (sAction.equals("register")) {
+            String sLogin = req.getParameter("login").trim();
+            String sPassword = req.getParameter("password").trim();
+            String sEmail = req.getParameter("email").trim();
+            String sFIO = req.getParameter("fio").trim();
+            oUserActive = ManagementSystem.getInstance().addUser(sLogin,sPassword,sEmail,sFIO);
+
+            sAction = "";
+            p = "RegisterResult";
+            if (oUserActive.getAuthorized()) {
+                sActionResult = "RegisterGood";
+            } else {
+                sActionResult = "RegisterBad";
+            }
+        }
+
+        // Записываем значение в атрибут P
+        req.setAttribute("p", this.p);
+
+        // Атрибут users - коллекция пользователей
+        Collection cUsers = ManagementSystem.getInstance().getUsers();
+        req.setAttribute("users", cUsers);
+
+        // Записываем значение в атрибут Action
+        req.setAttribute("action", this.sAction);
+
+        // Записываем значение в атрибут Action
+        req.setAttribute("sActionResult", this.sActionResult);
+
+        // Записываем активного пользователя
+        req.setAttribute("oActiveUser", this.oUserActive);
 
         // Вызов страницы вывода
         getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);

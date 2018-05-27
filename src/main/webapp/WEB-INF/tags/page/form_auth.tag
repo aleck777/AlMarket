@@ -20,13 +20,11 @@
         <form class="form-auth" action="post">
             <input name="p" value="${psel}" type="hidden">
             <input name="action" value="auth" type="hidden">
-            <input name="login" type="text" value="" size="30"><br/>
-            <input name="password" type="text" value="" size="30"><br/>
+            Логин : <input name="login" type="text" value="" size="25"><br/>
+            Пароль: <input name="password" type="text" value="" size="25"><br/>
 
             <input value="Авторизоваться" type="submit">
-
             <a href="?p=register">Регистрация</a>
-            <br/><c:out value="${ooActiveUser.getFIO()}"/>-<c:out value="${ooActiveUser.getAuthorized()}"/>
         </form>
     </c:otherwise>
     </c:choose>

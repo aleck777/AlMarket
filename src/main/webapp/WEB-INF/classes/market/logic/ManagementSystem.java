@@ -57,13 +57,14 @@ public class ManagementSystem {
     public market.logic.User checkUser (String sLogin, String sPassword) throws SQLException  {
         market.logic.User authUser = new market.logic.User();
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT am_login, am_password, am_access, am_fio FROM am_users WHERE am_login = '"+sLogin+"'"
+        ResultSet rs = stmt.executeQuery("SELECT am_login, am_password, am_access, am_fio, am_email FROM am_users WHERE am_login = '"+sLogin+"'"
                                                 +" and am_password = '"+sPassword+"'");
         if (rs.next()) {
             authUser.setLogin(rs.getString(1));
             authUser.setPassword(rs.getString(2));
             authUser.setAccess(rs.getInt(3));
             authUser.setFIO(rs.getString(4));
+            authUser.setEmail(rs.getString(5));
             authUser.setAuthorized(true);
         } else {
             authUser.setFIO("");
@@ -73,5 +74,29 @@ public class ManagementSystem {
         rs.close();
         stmt.close();
         return authUser;
+    }
+
+    public market.logic.User addUser (String sLogin, String sPassword, String sEmail, String sFIO) throws SQLException  {
+        market.logic.User usr = new market.logic.User();
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT am_login FROM am_users WHERE am_login = '"+sLogin+"'");
+        if (rs.next()) {
+            usr.setFIO("");
+            usr.setLogin("");
+            usr.setAuthorized(false);
+        } else {
+            int count_stmt = stmt.executeUpdate("INSERT INTO am_users (am_login, am_password, am_email, am_fio, am_access) " +
+                    "VALUES ('"+sLogin+"','"+sPassword+"','"+sEmail+"','"+sFIO+"', 1 )");
+            if ( count_stmt == 1) {
+                usr = checkUser(sLogin, sPassword);
+            } else {
+                usr.setFIO("");
+                usr.setLogin("");
+                usr.setAuthorized(false);
+            }
+        }
+        rs.close();
+        stmt.close();
+        return usr;
     }
 }
