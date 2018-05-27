@@ -5,7 +5,7 @@
 <%@ attribute name="ooActiveUser" required="true" type="market.logic.User" %>
 
 <div class="content-header">
-    Main: Register Result!
+    Register Result!
     <hr/>
     <c:choose>
         <c:when test="${ssRegisterResult == \"RegisterBad\"}">
@@ -14,7 +14,7 @@
         <c:when test="${ssRegisterResult == \"RegisterGood\"}">
             Добрый день.<br/>
             <c:out value="${ooActiveUser.getFIO()}"/>
-            поздравляю Вас с регистрацией" <br/>
+            поздравляю Вас с регистрацией! <br/>
         </c:when>
         <c:otherwise>
             <page:content_e404/>

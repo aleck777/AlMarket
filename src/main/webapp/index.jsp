@@ -38,11 +38,11 @@
             <c:when test="${p == \"register\"}">
                 <page:content_register/>
             </c:when>
-            <%--<c:when test="${p == \"register\"}">--%>
-                <%--<page:content_register/>--%>
-            <%--</c:when>--%>
             <c:when test="${p == \"RegisterResult\"}">
                 <page:content_register_result users="${users}" ssRegisterResult="${sActionResult}" ooActiveUser="${oActiveUser}" />
+            </c:when>
+            <c:when test="${p == \"list\"}">
+                <page:content_product_list ooActiveUser="${oActiveUser}" ssAddProductResult="${sActionResult}"/>
             </c:when>
             <c:otherwise>
                 <page:content_e404/>

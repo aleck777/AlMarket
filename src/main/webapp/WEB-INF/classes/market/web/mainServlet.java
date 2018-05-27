@@ -54,6 +54,7 @@ public class mainServlet extends HttpServlet {
             oUserActive.setAuthorized(false);
             sAction = "";
         }
+
         // Проверка Логина и Пароля - в базе данных
         if (sAction.equals("auth")) {
             String sLogin = req.getParameter("login").trim();
@@ -76,6 +77,22 @@ public class mainServlet extends HttpServlet {
                 sActionResult = "RegisterGood";
             } else {
                 sActionResult = "RegisterBad";
+            }
+        }
+        // Добавление товара в базу
+        if (sAction.equals("product_add")) {
+            String sCode = req.getParameter("product_code").trim();
+            String sName = req.getParameter("product_name").trim();
+            String sDescription = req.getParameter("product_description").trim();
+            String sImage = req.getParameter("product_image").trim();
+            boolean bAddResult = ManagementSystem.getInstance().addProduct(sCode,sName,sDescription,sImage);
+
+            sAction = "";
+            p = "list";
+            if (bAddResult) {
+                sActionResult = "ProductAddGood";
+            } else {
+                sActionResult = "ProductAddBad";
             }
         }
 

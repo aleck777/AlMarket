@@ -28,6 +28,21 @@ public class ManagementSystem {
                 con = DriverManager.getConnection("jdbc:h2:~/AlMarket", "sa", "");
 //                stmt = con.createStatement();
 
+                Statement stmt = con.createStatement();
+                stmt.execute("CREATE TABLE IF NOT EXISTS AM_USERS(\n" +
+                        "    AM_LOGIN CHAR(64) NOT NULL,\n" +
+                        "    AM_PASSWORD CHAR(128),\n" +
+                        "    AM_ACCESS INT,\n" +
+                        "    AM_FIO VARCHAR(255),\n" +
+                        "    AM_EMAIL VARCHAR(255)\n" +
+                        ");\n");
+                stmt.execute("CREATE TABLE IF NOT EXISTS AM_PRODUCTS(\n" +
+                        "    AM_CODE CHAR(64) NOT NULL,\n" +
+                        "    AM_NAME CHAR(128),\n" +
+                        "    AM_DESCRIPTION VARCHAR(255),\n" +
+                        "    AM_IMAGE VARCHAR(255)\n" +
+                        ");\n");
+                stmt.close();
             } catch (NamingException e) {
                 e.printStackTrace();
             } catch (SQLException e) {
@@ -99,4 +114,19 @@ public class ManagementSystem {
         stmt.close();
         return usr;
     }
+
+    public boolean addProduct (String sCode, String sName, String sDecription, String sImage) throws SQLException {
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT am_code FROM am_products WHERE am_code = '"+sCode+"'");
+        boolean bActionSQL = (! rs.next());
+        if (bActionSQL) {
+             int count_stmt = stmt.executeUpdate("INSERT INTO am_products (am_code, am_name, am_description, am_image)" +
+                    "VALUES ('"+sCode+"','"+sName+"','"+sDecription+"','"+sImage+"')");
+             bActionSQL = (count_stmt==1);
+        }
+        rs.close();
+        stmt.close();
+        return bActionSQL;
+    }
+
 }
