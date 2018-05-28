@@ -129,4 +129,18 @@ public class ManagementSystem {
         return bActionSQL;
     }
 
+    public Collection getProducts() throws SQLException {
+        Collection products = new ArrayList();
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT am_code, am_name, am_description, am_image FROM am_products");
+
+        while (rs.next()) {
+            market.logic.Product product = new market.logic.Product(rs);
+            products.add(product);
+        }
+        rs.close();
+        stmt.close();
+        return products;
+    }
+
 }

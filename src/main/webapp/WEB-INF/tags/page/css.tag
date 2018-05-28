@@ -24,4 +24,11 @@
         /*float: left;*/
     }
 
+    .content-product {
+        border: solid 1px red;
+    }
+    .content-product-image {
+        height: 100px;
+    }
+
 </style>

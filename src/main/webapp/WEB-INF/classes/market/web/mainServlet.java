@@ -103,6 +103,10 @@ public class mainServlet extends HttpServlet {
         Collection cUsers = ManagementSystem.getInstance().getUsers();
         req.setAttribute("users", cUsers);
 
+        // Атрибут products - коллекция пользователей
+        Collection cProducts = ManagementSystem.getInstance().getProducts();
+        req.setAttribute("products", cProducts);
+
         // Записываем значение в атрибут Action
         req.setAttribute("action", this.sAction);
 
