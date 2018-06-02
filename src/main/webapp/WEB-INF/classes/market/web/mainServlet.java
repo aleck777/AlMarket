@@ -35,12 +35,16 @@ public class mainServlet extends HttpServlet {
             this.p = req.getParameter("p").trim();
         } else {
             this.p = "main";
+            req.setAttribute("p", this.p);
         }
 
         // Получаем значение параметра Action (для форм)
         if (req.getParameter("action") != null) {
             this.sAction = req.getParameter("action").trim();
+        } else {
+            this.sAction = "";
         }
+
 
         // Получаем активного пользователя
         if (req.getAttribute("oActiveUser") != null) {
@@ -52,6 +56,7 @@ public class mainServlet extends HttpServlet {
             oUserActive.setFIO("");
             oUserActive.setLogin("");
             oUserActive.setAuthorized(false);
+            oUserActive.setAccess(0);
             sAction = "";
         }
 
